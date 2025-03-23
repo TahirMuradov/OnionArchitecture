@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OnionArch.Application.Abstraction;
 using OnionArch.Application.Repostories.ProductRepositories;
+using OnionArch.Application.ViewModels;
 using OnionArch.Domain.Entities;
 
 namespace WebApi.Controllers
@@ -31,6 +32,12 @@ namespace WebApi.Controllers
             var products =  _productReadRepository.GetAll();
             return Ok(products);
 
+        }
+        [HttpPost]
+        public  ActionResult CreateProduct(ProductCreateVM product)
+        {
+           
+            return Ok(product);
         }
     }
 }
