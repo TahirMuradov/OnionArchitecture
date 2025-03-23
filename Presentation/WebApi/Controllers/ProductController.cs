@@ -24,14 +24,11 @@ namespace WebApi.Controllers
         { 
        await _productWriteRepository.AddRangeAsync(new()
        {
-              new Product { Name = "Product 1", Price = 100, Stock = 20, CreatedDate = DateTime.UtcNow },
-    new Product { Name = "Product 2", Price = 150, Stock = 15, CreatedDate = DateTime.UtcNow },
-    new Product { Name = "Product 3", Price = 200, Stock = 30, CreatedDate = DateTime.UtcNow },
-    new Product { Name = "Product 4", Price = 250, Stock = 25, CreatedDate = DateTime.UtcNow },
-    new Product { Name = "Product 5", Price = 300, Stock = 10, CreatedDate = DateTime.UtcNow }
+              new Product { Name = "Product A", Price = 100, Stock = 20},
+ 
        });
-            var products =  _productReadRepository.GetAll();
           await  _productWriteRepository.SaveAsync();
+            var products =  _productReadRepository.GetAll();
             return Ok(products);
 
         }

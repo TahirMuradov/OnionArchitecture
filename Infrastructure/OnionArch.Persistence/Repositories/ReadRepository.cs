@@ -14,16 +14,18 @@ namespace OnionArch.Persistence.Repositories
         }
         public DbSet<T> Table => _context.Set<T>();
 
-        public IQueryable<T> GetAll()
-            => Table;
+        public IQueryable<T> GetAll(bool tracking = true)
+            => tracking? Table:Table.AsQueryable().AsNoTracking();
 
-        public async Task<T> GetByIdAsync(string id)
-      =>await Table.FirstOrDefaultAsync(data=>data.Id == Guid.Parse(id));
+        public async Task<T> GetByIdAsync(string id,bool tracking=true)
+      =>tracking? await Table.FirstOrDefaultAsync(data=>data.Id == Guid.Parse(id))
+            : await Table.AsQueryable().AsNoTracking().FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
 
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate)
-     => await Table.SingleOrDefaultAsync(predicate);
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate,bool tracking=true)
+     => tracking? await Table.SingleOrDefaultAsync(predicate)
+            :await Table.AsQueryable().AsNoTracking().SingleOrDefaultAsync(predicate);
 
-        public IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate)
-        => Table.Where(predicate);
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate,bool tracking)
+        => tracking? Table.Where(predicate) :Table.AsQueryable().AsNoTracking().Where(predicate);
     }
 }
